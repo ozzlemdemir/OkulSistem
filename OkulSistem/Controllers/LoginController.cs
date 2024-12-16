@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using OkulSistem.Data;
 using Microsoft.EntityFrameworkCore;
+using OkulSistem.Controllers;
 
 namespace OkulSistem.Controllers
 {
@@ -44,6 +45,7 @@ namespace OkulSistem.Controllers
 
                 if (bilgiler != null)
                 {
+                    HttpContext.Session.SetString("InstructorID", bilgiler.InstructorID);
                     return RedirectToAction("Index","Home");//kullanıcı başarılı giriş yapmışsa home index sayfasına yönlnedirilir
                 }
 

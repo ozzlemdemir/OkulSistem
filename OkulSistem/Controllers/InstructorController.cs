@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace OkulSistem.Controllers
 {
-   /* [Route("api/[controller]")]
+   /*[Route("api/[controller]")]
     [ApiController]*/
 
     public class InstructorController : Controller
@@ -139,6 +139,7 @@ namespace OkulSistem.Controllers
         {
 
             var instructorId = HttpContext.Session.GetString("InstructorID");
+            HttpContext.Session.SetString("InstructorID", instructorId);
 
             var instructor = _context.Instructors
                 .FirstOrDefault(i => i.InstructorID == instructorId);
