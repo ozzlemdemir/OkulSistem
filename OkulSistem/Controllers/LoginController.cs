@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using System.Web;
 using OkulSistem.Models;
@@ -18,13 +19,13 @@ namespace OkulSistem.Controllers
 
         public LoginController(ApplicationDbContext context)
         {
-            _context = context; // Veritabanı bağlamını Dependency Injection ile alıyoruz
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult GirisYap()
         {
-            return View(); // Login ekranını döndür
+            return View(); //default olarak GirisYap sayfası ayarlandı
         }
 
         [HttpPost]
@@ -34,16 +35,16 @@ namespace OkulSistem.Controllers
             {
                 if (instructor == null || string.IsNullOrEmpty(instructor.Email) || string.IsNullOrEmpty(instructor.Password))
                 {
-                    ViewBag.ErrorMessage = "Model bağlanmadı veya giriş bilgileri eksik.";
+                    ViewBag.ErrorMessage = "giris bilgileri eksik ";
                     return View();
                 }
 
-                var bilgiler = _context.Instructors
+                var bilgiler = _context.Instructors//burada girilen bikgilerin veri tabanı ile uyuşup uyuşmadıgı kontrol edilir.
                     .FirstOrDefault(x => x.Email == instructor.Email && x.Password == instructor.Password);
 
                 if (bilgiler != null)
                 {
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index","Home");//kullanıcı başarılı giriş yapmışsa home index sayfasına yönlnedirilir
                 }
 
                 ViewBag.ErrorMessage = "Hatalı e-posta veya şifre.";
@@ -51,8 +52,8 @@ namespace OkulSistem.Controllers
             }
             catch (Exception ex)
             {
-                // Log hatayı
-                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";
+                
+                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";//sunu u hatası durumunda çalışır
                 return View();
             }
         }

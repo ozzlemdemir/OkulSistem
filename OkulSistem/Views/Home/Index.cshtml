@@ -11,81 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoş Geldiniz</title>
 
-    <style>
-        /* Genel Sayfa Stili */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: cadetblue;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .container {
-            background-color: cadetblue;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        /* Hoş Geldiniz Başlığı */
-        h1 {
-            color: #555;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        /* Yapabileceğiniz İşlemler Başlığı */
-        h3 {
-            color: #555;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        /* Liste Stili */
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-
-        li {
-            margin: 15px 0;
-        }
-
-        /* Bağlantılar için stil */
-        a {
-            font-size: 1.2rem;
-            color: #4CAF50;
-            text-decoration: none;
-            transition: color 0.3s, background-color 0.3s;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            background-color: #f1f1f1;
-        }
-
-            a:hover {
-                color: white;
-                background-color: #4CAF50;
-            }
-
-        /* Error message */
-        .error-message {
-            color: #d9534f;
-            text-align: center;
-            font-size: 1.1rem;
-            margin-top: 20px;
-        }
-
-    </style>
+   
 
     </head>
     <body>
@@ -99,7 +25,7 @@
     <li><a href="@Url.Action("OgrenciGuncelle", "Instructor")">Öğrenci Guncelleme</a></li>
     <li><a href="@Url.Action("DeleteStudent", "Instructor")">Öğrenci Sil</a></li>
     <li><a href="@Url.Action("OgrenciEkle", "Instructor")">Öğrenci Ekle</a></li>
-
+    <li><a href="@Url.Action("StudentCoursesList", "Instructor")">Ogrencilerin ALdığı Dersler</a></li>
     <li><a href="@Url.Action("InstructorDetails", "Instructor")">Kendi Bilgilerinizi Güncelle</a></li>
     <li><a href="@Url.Action("Logout", "Home")">Çıkış Yap</a></li>
 </ul>

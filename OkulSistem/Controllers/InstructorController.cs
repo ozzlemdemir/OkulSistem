@@ -23,60 +23,76 @@ namespace OkulSistem.Controllers
         [HttpGet("StudentList")]
         public async Task<ActionResult<IEnumerable<Student>>> GetS()
         {
-            var students = await _context.Students.ToListAsync();
-            return View(students);
+            var students = await _context.Students.ToListAsync();//tüm öğrencilerin listesini students nesnesi üzerinden listeliyoruz
+            return View(students);//GetS viewimiz ile görselleştiriyoruz
         }
         [HttpGet("StudentByID/{id?}")] 
         public async Task<IActionResult> StudentByID(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                TempData["Error"] = "Öğrenci ID'si belirtilmedi.";
+                TempData["Error"] = "lutfen id giriniz";
                 return View(null); 
             }
-
+            //burada kullanıcın girdiği değere göre veri tabanında uyuşan verinin olup olmadıgını kontrol ediyoruz
             var ogrenci = await _context.Students.FirstOrDefaultAsync(x => x.StudentID == id);
             if (ogrenci == null)
             {
-                TempData["Error"] = $"Bu ID'ye sahip öğrenci bulunamadı: {id}";
+                TempData["Error"] = $" {id} id'sine ait öğrenci yok";
                 return View(null); 
             }
 
-            return View(ogrenci); 
+            return View(ogrenci); //ogrenci varsa view şeklinde görselleştiriyoruz
         }
 
         [HttpGet("StudentCourses")]
-        public async Task<ActionResult<IEnumerable<StudentsCourse>>> StudentCoursesList()
+        public async Task<IActionResult> StudentCoursesList()
         {
-            return await _context.StudentsCourses.ToListAsync();
+            var ogrenciKurslar = await _context.StudentsCourses
+                .Include(sc => sc.Student)
+                .Include(sc => sc.Course)
+                .Select(sc => new StudentsCourse
+                {
+                    SelectionID = sc.SelectionID,
+                    StudentID = sc.Student.StudentID,
+                    CourseID = sc.Course.CourseID,
+                    StudentName= sc.Student.FirstName,
+                    StudentLastName = sc.Student.LastName,
+
+
+
+                })
+                .ToListAsync();
+
+            return View(ogrenciKurslar);
         }
 
         //http://localhost:5115/api/Instructor/id?id=2
         [HttpGet("DeleteStudent")]
         public IActionResult DeleteStudent()
         {
-            return View();
+            return View();//kullanıcıdan id alacağımız kısmı getirdik
         }
         [HttpPost("DeleteStudent/{id?}")]
         public async Task<IActionResult> DeleteStudent(string id)
         {
-            // Öğrenci ID'sine göre öğrenci arama
-            var ogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id);
+            
+            var ogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id); //ogrenci nesnesine silinecek öğrenciyi atadık
 
             if (ogrenci == null)
             {
-                // Öğrenci bulunamadığında hata mesajı
-                TempData["Error"] = "Bu ID'ye sahip öğrenci bulunamadı.";
+                
+                TempData["Error"] = "böyle bir öğrenci yok.";
                 return RedirectToAction("DeleteStudent");
             }
 
-            // Öğrenciyi silme
-            _context.Students.Remove(ogrenci);
-            await _context.SaveChangesAsync();
+            
+            _context.Students.Remove(ogrenci);//atadıgımız öğrenciyi sildik
+            await _context.SaveChangesAsync();//değişiklikleri kaydettik
 
-            // Silme işlemi başarılı olduğunda kullanıcıya mesaj gösterme
-            TempData["Success"] = "Öğrenci başarıyla silindi.";
-            return RedirectToAction("DeleteStudent");
+            
+            TempData["Success"] = "ogrenci silindi";
+            return RedirectToAction("DeleteStudent");//öğrenci silindikten sonra tekrar başka öğrenic silinmek istenirse DeleteStudent sayfasına geri döndük
         }
 
 
