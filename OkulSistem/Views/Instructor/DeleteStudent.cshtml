@@ -1,0 +1,107 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Öğrenci Sil</title>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #ff4d4f;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+            button:hover {
+                background-color: #e04344;
+            }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+            .message.error {
+                color: red;
+            }
+
+            .message.success {
+                color: green;
+            }
+    </style>
+
+</head>
+<body>
+    <h1>Öğrenci Sil</h1>
+    <form method="post" asp-action="DeleteStudent" asp-controller="Instructor">
+        <label for="id">Öğrenci ID:</label>
+        <input type="text" id="id" name="id" placeholder="Öğrenci ID giriniz" required />
+        <button type="submit">Sil</button>
+    </form>
+
+    @if (TempData["Error"] != null)
+    {
+        <p style="color: red;">@TempData["Error"]</p>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <p style="color: green;">@TempData["Success"]</p>
+    }
+</body>
+</html>

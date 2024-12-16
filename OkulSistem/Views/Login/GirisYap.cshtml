@@ -1,0 +1,118 @@
+﻿@model OkulSistem.Models.Instructor
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+    <title>SYSTEM</title>
+    <style>
+        /* Genel Sayfa Stili */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color:darkcyan;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Başlık Stili */
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 2.5rem;
+        }
+
+        /* Form Stili */
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        /* Giriş Alanları Stili */
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            width: 48%; /* Yanyana olacak şekilde %48 genişlik */
+            margin-bottom: 10px;
+            transition: border 0.3s;
+        }
+
+            input[type="text"]:focus, input[type="password"]:focus {
+                border-color: #45a049;
+                outline: none;
+            }
+
+        /* Login Butonu Stili */
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%; /* Buton genişliği form ile aynı olacak */
+            max-width: 500px;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+
+        /* Hata Mesajı Stili */
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        /* Genel Yedek Stil */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="log-form">
+    <h2>WELCOME</h2>
+        <form asp-action="GirisYap" asp-controller="Login" method="post">
+        <input name="Email" type="text"  placeholder="email" required />
+        <input name="Password" type="password"  placeholder="password" required />
+        <button type="submit" class="btn">Login</button>
+        
+    </form>
+</div>
+</body>
+</html>
+
