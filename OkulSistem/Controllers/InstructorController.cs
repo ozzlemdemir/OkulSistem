@@ -105,7 +105,7 @@ namespace OkulSistem.Controllers
                 return NotFound("Öğrenci bulunamadı.");
             }
 
-            // Null olmayan özellikleri güncelle
+            
             if (!string.IsNullOrEmpty(student.FirstName))
             {
                 guncelogrenci.FirstName = student.FirstName;
@@ -146,13 +146,38 @@ namespace OkulSistem.Controllers
 
             return View(instructor);
         }
-        [HttpPost("OgrenciEkle")]
-        public async Task<ActionResult> OgrenciEkle(Student student)
+        [HttpGet]
+        public IActionResult OgrenciEkle()
         {
-            _context.Students.Add(student);
-            await _context.SaveChangesAsync();
-            return Ok(student);
+            
+            return View();//bu methodu çağırdığımızda sayfanın dönmesi için
         }
+
+        [HttpPost]
+        public async Task<IActionResult> OgrenciEkle(Student student)
+        {
+            try
+            {
+                
+                if (ModelState.IsValid)
+                {
+                    _context.Students.Add(student);//veri tabanına ekle yeni öğrenciyi
+                    await _context.SaveChangesAsync(); 
+
+                    TempData["SuccessMessage"] = "Öğrenci  eklendi.";
+                    return RedirectToAction("OgrenciEkle");
+                }
+
+                
+                return View(student);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";
+                return View(student);
+            }
+        }
+        
 
 
 
