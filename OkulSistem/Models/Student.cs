@@ -9,6 +9,6 @@
         public string? Department { get; set; }//öğrenci departmanı
         public string? Password { get; set; } //öğrenci şifresi
 
-       // public ICollection<StudentsCourse> StudentCourses { get; set; } = new List<StudentsCourse>();
+        public ICollection<StudentsCourse> StudentCourses { get; set; } = new List<StudentsCourse>();
     }
 }

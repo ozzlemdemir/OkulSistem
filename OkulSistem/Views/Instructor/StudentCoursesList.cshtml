@@ -16,9 +16,10 @@
             <tr>
                 <th>Seçim ID</th>
                 <th>Öğrenci ID</th>
-                <th>Öğrenci Adı</th>
-                <th>Öğrenci Soyadı</th>
                 <th>Kurs ID</th>
+                <th>Öğrenci Adı</th>
+                <th> Soyadı</th>
+                <th>Kurs Adı</th>
                 
                 
             </tr>
@@ -29,9 +30,12 @@
                 <tr>
                     <td>@item.SelectionID</td>
                     <td>@item.StudentID</td>
-                    <td>@item.StudentName</td>
-                    <td>@item.StudentLastName</td>
                     <td>@item.CourseID</td>
+                    <td>@item.Student?.FirstName  </td>
+                    <td>@item.Student?.LastName </td>
+                    <td>@item.Course?.CourseName </td>
+                    
+
                  
                 </tr>
             }

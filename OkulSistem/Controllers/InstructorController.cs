@@ -49,20 +49,9 @@ namespace OkulSistem.Controllers
         public async Task<IActionResult> StudentCoursesList()
         {
             var ogrenciKurslar = await _context.StudentsCourses
-                .Include(sc => sc.Student)
-                .Include(sc => sc.Course)
-                .Select(sc => new StudentsCourse
-                {
-                    SelectionID = sc.SelectionID,
-                    StudentID = sc.Student.StudentID,
-                    CourseID = sc.Course.CourseID,
-                    StudentName= sc.Student.FirstName,
-                    StudentLastName = sc.Student.LastName,
-
-
-
-                })
-                .ToListAsync();
+         .Include(sc => sc.Student)   
+         .Include(sc => sc.Course)  
+         .ToListAsync();  
 
             return View(ogrenciKurslar);
         }
@@ -94,46 +83,73 @@ namespace OkulSistem.Controllers
             TempData["Success"] = "ogrenci silindi";
             return RedirectToAction("DeleteStudent");//öğrenci silindikten sonra tekrar başka öğrenic silinmek istenirse DeleteStudent sayfasına geri döndük
         }
-
-
-        [HttpPut("OgrenciGuncelleme")]
-        public async Task<ActionResult<Student>> OgrenciGuncelle(Student student, string id)
+        [HttpGet("OgrenciGuncelle")]
+        public IActionResult OgrenciGuncelle()
         {
-            var guncelogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id);
-            if (guncelogrenci == null)
-            {
-                return NotFound("Öğrenci bulunamadı.");
-            }
-
             
-            if (!string.IsNullOrEmpty(student.FirstName))
-            {
-                guncelogrenci.FirstName = student.FirstName;
-            }
-
-            if (!string.IsNullOrEmpty(student.LastName))
-            {
-                guncelogrenci.LastName = student.LastName;
-            }
-
-            if (!string.IsNullOrEmpty(student.Email))
-            {
-                guncelogrenci.Email = student.Email;
-            }
-
-            if (!string.IsNullOrEmpty(student.Department))
-            {
-                guncelogrenci.Department = student.Department;
-            }
-
-            if (!string.IsNullOrEmpty(student.Password))
-            {
-                guncelogrenci.Password = student.Password;
-            }
-
-            await _context.SaveChangesAsync(); // Değişiklikleri kaydet
-            return Ok(guncelogrenci); // Güncellenmiş öğrenci döndür
+            return View();
         }
+
+        [HttpPost("OgrenciGuncelle/{id?}")]
+        public async Task<IActionResult> OgrenciGuncelle(  Student student, string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    TempData["ErrorMessage"] = "Güncellemek istediğiniz öğrencinin ID'si belirtilmedi.";
+                    return View(student);
+                }
+
+                var guncelogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id);
+                if (guncelogrenci == null)
+                {
+                    
+                    TempData["ErrorMessage"] = "Güncellemek istediğiniz öğrenci bulunamadı.";
+                    return View();
+                }
+
+                
+                if (!string.IsNullOrEmpty(student.FirstName))
+                {
+                    guncelogrenci.FirstName = student.FirstName;
+                }
+
+                if (!string.IsNullOrEmpty(student.LastName))
+                {
+                    guncelogrenci.LastName = student.LastName;
+                }
+
+                if (!string.IsNullOrEmpty(student.Email))
+                {
+                    guncelogrenci.Email = student.Email;
+                }
+
+                if (!string.IsNullOrEmpty(student.Department))
+                {
+                    guncelogrenci.Department = student.Department;
+                }
+
+                if (!string.IsNullOrEmpty(student.Password))
+                {
+                    guncelogrenci.Password = student.Password;
+                }
+
+                await _context.SaveChangesAsync();
+
+                
+                TempData["SuccessMessage"] = "Öğrenci bilgileri başarıyla güncellendi.";
+            }
+            catch (Exception ex)
+            {
+                
+                TempData["ErrorMessage"] = $"Bir hata oluştu: {ex.Message}";
+            }
+
+           
+            return View(student);
+        }
+
         [HttpGet]
         public IActionResult InstructorDetails()
         {
@@ -164,11 +180,11 @@ namespace OkulSistem.Controllers
                     _context.Students.Add(student);//veri tabanına ekle yeni öğrenciyi
                     await _context.SaveChangesAsync(); 
 
-                    TempData["SuccessMessage"] = "Öğrenci  eklendi.";
+                    
                     return RedirectToAction("OgrenciEkle");
                 }
 
-                
+                TempData["SuccessMessage"] = "Öğrenci  eklendi.";
                 return View(student);
             }
             catch (Exception ex)
