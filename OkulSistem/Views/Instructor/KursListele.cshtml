@@ -1,0 +1,42 @@
+﻿@model IEnumerable<OkulSistem.Models.Course>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CourseList</title>
+</head>
+<body>
+    <h1>KursListesi</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Kurs ID</th>
+                <th>Kurs Adı</th>
+                <th>Kurs Kredisi</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.CourseID</td>
+                    <td>@student.CourseName</td>
+                    <td>@student.Credits</td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div style="margin-top: 10px;">
+        <div style="margin-top: 10px;">
+            <a href="/Home/Index" class="btn btn-secondary">Ana Sayfaya Dön</a>
+        </div>
+    </div>
+</body>

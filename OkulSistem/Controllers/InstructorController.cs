@@ -26,6 +26,12 @@ namespace OkulSistem.Controllers
             var students = await _context.Students.ToListAsync();//tüm öğrencilerin listesini students nesnesi üzerinden listeliyoruz
             return View(students);//GetS viewimiz ile görselleştiriyoruz
         }
+        [HttpGet("CoursesList")]
+        public async Task<ActionResult<IEnumerable<Student>>> KursListele()
+        {
+            var kurslar = await _context.Courses.ToListAsync();//tüm kurslar kurslar nesnesi üzerinden listeliyoruz
+            return View(kurslar);
+        }
         [HttpGet("StudentByID/{id?}")] 
         public async Task<IActionResult> StudentByID(string id)
         {
@@ -150,9 +156,6 @@ namespace OkulSistem.Controllers
                     guncelogrenci.Password = student.Password;
                 }
 
-                await _context.SaveChangesAsync();
-
-
                 _context.Update(guncelogrenci);
                 await _context.SaveChangesAsync();
 
@@ -209,7 +212,39 @@ namespace OkulSistem.Controllers
                 return View(student);
             }
         }
-        
+        [HttpGet]
+        public IActionResult KursEkle()
+        {
+
+            return View();//bu methodu çağırdığımızda sayfanın dönmesi için
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> KursEkle(Course kurs)
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    _context.Courses.Add(kurs);//veri tabanına ekle yeni öğrenciyi
+                    await _context.SaveChangesAsync();
+
+
+                    return RedirectToAction("KursEkle");
+                }
+
+                TempData["SuccessMessage"] = "Kurs eklendi.";
+                return View(kurs);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";
+                return View(kurs);
+            }
+        }
+
+
 
 
 

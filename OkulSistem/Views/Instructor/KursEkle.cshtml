@@ -1,0 +1,46 @@
+﻿@model OkulSistem.Models.Course
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>KursEkle</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Yeni Kurs Ekle</h1>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <form asp-action="KursEkle" asp-controller="Instructor" method="post">
+            <div>
+                <label for="CourseID">ID:</label>
+                <input type="text" id="CourseID" name="CourseID" required />
+            </div>
+            <div>
+                <label for="CourseName">Kurs Adı:</label>
+                <input type="text" id="CourseName" name="CourseName" required />
+            </div>
+            <div>
+                <label for="Credits">Kurs Kredisi:</label>
+                <input type="text" id="Credits" name="Credits" required />
+            </div>
+            <button type="submit">Ekle</button>
+        </form>
+    </div>
+    <div style="margin-top: 10px;">
+        <div style="margin-top: 10px;">
+            <a href="/Home/Index" class="btn btn-secondary">Ana Sayfaya Dön</a>
+        </div>
+    </div>
+</body>
+</html>
