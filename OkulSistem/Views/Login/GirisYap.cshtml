@@ -12,104 +12,87 @@
     <style>
        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color:darkcyan;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
-       
-        h2 {
-            color: #4CAF50;
-            text-align: center;
-            margin-top: 40px;
-            font-size: 2.5rem;
-        }
-
-        
-        form {
+            background-color: #121212; /* Siyahımsı arka plan */
+            color: #ffffff; /* Beyaz yazı */
+            font-family: 'Arial', sans-serif; /* Modern yazı tipi */
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin-top: 30px;
+            height: 100vh;
+            margin: 0;
         }
 
-        
-        .input-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 20px;
+        .log-form {
+            background-color: rgba(255, 255, 255, 0.1); /* Hafif saydam arka plan */
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #8a2b74; /* Neon gölgelendirme */
+            text-align: center;
+            width: 300px;
         }
 
-        label {
-            font-size: 1.1rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
+            .log-form h2 {
+                margin-bottom: 20px;
+                color:white; /* Yeşilimsi neon rengi */
+                text-shadow: 0 0 10px #8a2b74, 0 0 20px #8a2b74;
+            }
 
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            font-size: 1rem;
-            border: 2px solid #4CAF50;
-            border-radius: 5px;
-            width: 48%;
-            margin-bottom: 10px;
-            transition: border 0.3s;
-        }
-
-            input[type="text"]:focus, input[type="password"]:focus {
-                border-color: #45a049;
+            .log-form input {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: none;
+                border-radius: 5px;
+                background-color: #ffffff; /* Beyaz arka plan */
+                color: #121212; /* Siyah yazı */
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Neon gölgelendirme */
                 outline: none;
             }
 
-        
-        button {
-            box-shadow:2px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%; /* Buton genişliği form ile aynı olacak */
-            max-width: 500px;
-        }
+                .log-form input::placeholder {
+                    color: #aaaaaa; /* Placeholder rengi */
+                }
 
-            button:hover {
-                background-color: #45a049;
+            .log-form button {
+                width: 100%;
+                padding: 10px;
+                background-color: #8a2b74; /* Yeşil arka plan */
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0 0 10px #8a2b74, 0 0 20px #8a2b74; /* Neon gölgelendirme */
+                transition: all 0.3s ease;
             }
 
-
-        /* Hata Mesajı Stili */
         .error-message {
-            color: #d9534f;
+            color: #cc8bcc;
+            font-size: 17px;
+            margin-top: 15px;
+            margin-bottom:5px;
             text-align: center;
-            font-size: 1.1rem;
-            margin-top: 20px;
         }
 
-        /* Genel Yedek Stil */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+                .log-form button:hover {
+                    background-color: #30912d; /* Daha koyu yeşil */
+                    box-shadow: 0 0 20px #30912d, 0 0 30px #30912d; /* Daha yoğun neon efekt */
+                }
     </style>
 </head>
 <body>
 
 <div class="log-form">
     <h2>WELCOME</h2>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="error-message">
+                @ViewBag.ErrorMessage
+            </div>
+        }
         <form asp-action="GirisYap" asp-controller="Login" method="post">
-        <input name="Email" type="text"  placeholder="email" required />
-        <input name="Password" type="password"  placeholder="password" required />
+        <input name="Email" type="text"  placeholder="email" />
+        <input name="Password" type="password"  placeholder="password"  />
         <button type="submit" class="btn">Login</button>
         
     </form>

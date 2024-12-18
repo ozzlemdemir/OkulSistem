@@ -36,7 +36,7 @@ namespace OkulSistem.Controllers
             {
                 if (instructor == null || string.IsNullOrEmpty(instructor.Email) || string.IsNullOrEmpty(instructor.Password))
                 {
-                    ViewBag.ErrorMessage = "giris bilgileri eksik ";
+                    ViewBag.ErrorMessage = "Giris bilgilerini  eksik girdiniz!";
                     return View();
                 }
 
@@ -46,10 +46,11 @@ namespace OkulSistem.Controllers
                 if (bilgiler != null)
                 {
                     HttpContext.Session.SetString("InstructorID", bilgiler.InstructorID);
+                    HttpContext.Session.SetString("InstructorName", bilgiler.FirstName);
                     return RedirectToAction("Index","Home");//kullanıcı başarılı giriş yapmışsa home index sayfasına yönlnedirilir
                 }
 
-                ViewBag.ErrorMessage = "Hatalı e-posta veya şifre.";
+                ViewBag.ErrorMessage = "Hatalı e-posta veya şifre girdiniz!";
                 return View();
             }
             catch (Exception ex)
