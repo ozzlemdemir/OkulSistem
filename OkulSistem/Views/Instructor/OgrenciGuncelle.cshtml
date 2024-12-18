@@ -6,55 +6,58 @@
 
 <h2>Öğrenci Güncelle</h2>
 
-
 @if (TempData["SuccessMessage"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
 }
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
 
-<form asp-controller="Instructor"  asp-action="OgrenciGuncelle" method="post">
+<form method="get" asp-action="OgrenciGuncelle">
     <div class="form-group">
         <label for="id">Öğrenci ID:</label>
-        <input type="text" name="id" class="form-control" placeholder="Güncellemek istediğiniz öğrencinin ID'sini girin" value="@Model?.StudentID" />
+        <input type="text" name="id" class="form-control" placeholder="Öğrenci ID'sini girin" value="@Model?.StudentID" />
     </div>
-
-    <hr />
-
-    <h4>Güncellenecek Bilgiler</h4>
-    <div class="form-group">
-        <label for="FirstName">Ad:</label>
-        <input asp-for="FirstName" class="form-control" placeholder="Adı girin" />
-    </div>
-
-    <div class="form-group">
-        <label for="LastName">Soyad:</label>
-        <input asp-for="LastName" class="form-control" placeholder="Soyadı girin" />
-    </div>
-
-    <div class="form-group">
-        <label for="Email">E-posta:</label>
-        <input asp-for="Email" class="form-control" placeholder="E-posta adresini girin" />
-    </div>
-
-    <div class="form-group">
-        <label for="Department">Departman:</label>
-        <input asp-for="Department" class="form-control" placeholder="Departman adı girin" />
-    </div>
-
-    <div class="form-group">
-        <label for="Password">Şifre:</label>
-        <input asp-for="Password" type="password" class="form-control" placeholder="Şifreyi girin" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <button type="submit" class="btn btn-info">Ara</button>
 </form>
+
+<hr />
+
+
+@if (Model != null && !string.IsNullOrEmpty(Model.StudentID))
+{
+    <form method="post" asp-action="OgrenciGuncelle">
+        <input type="hidden" asp-for="StudentID" />
+
+        <div class="form-group">
+            <label for="FirstName">Ad:</label>
+            <input asp-for="FirstName" class="form-control"  value="@Model.FirstName" placeholder="Adı girin" />
+        </div>
+
+        <div class="form-group">
+            <label for="LastName">Soyad:</label>
+            <input asp-for="LastName" class="form-control" value="@Model.LastName" placeholder="Soyadı girin" />
+        </div>
+
+        <div class="form-group">
+            <label for="Email">E-posta:</label>
+            <input asp-for="Email" class="form-control" value="@Model.Email" placeholder="E-posta adresini girin" />
+        </div>
+
+        <div class="form-group">
+            <label for="Department">Departman:</label>
+            <input asp-for="Department" class="form-control" value="@Model.Department" placeholder="Departman adı girin" />
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Şifre:</label>
+            <input asp-for="Password" type="password" class="form-control" value="@Model.Password" placeholder="Şifreyi girin" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </form>
+}
