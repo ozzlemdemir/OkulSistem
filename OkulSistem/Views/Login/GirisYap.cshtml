@@ -3,18 +3,17 @@
     Layout = null;
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   
-    <title>SYSTEM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap</title>
     <style>
-       
         body {
-            background-color: #121212; /* Siyahımsı arka plan */
-            color: #ffffff; /* Beyaz yazı */
-            font-family: 'Arial', sans-serif; /* Modern yazı tipi */
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,81 +21,132 @@
             margin: 0;
         }
 
-        .log-form {
-            background-color: rgba(255, 255, 255, 0.1); /* Hafif saydam arka plan */
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px #8a2b74; /* Neon gölgelendirme */
-            text-align: center;
-            width: 300px;
+        .login-container {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(186, 115, 186, 0.8);
+            width: 100%;
+            max-width: 400px;
         }
 
-            .log-form h2 {
-                margin-bottom: 20px;
-                color:white; /* Yeşilimsi neon rengi */
-                text-shadow: 0 0 10px #8a2b74, 0 0 20px #8a2b74;
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .role-selection {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .role-option {
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-align: center;
+            position: relative;
+        }
+
+            .role-option img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                border: 2px solid #ba73ba;
+                transition: all 0.3s;
             }
 
-            .log-form input {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 15px;
-                border: none;
-                border-radius: 5px;
-                background-color: #ffffff; /* Beyaz arka plan */
-                color: #121212; /* Siyah yazı */
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Neon gölgelendirme */
+        input[type="radio"] {
+            display: none;
+        }
+
+       
+        .role-option input:checked + img {
+            box-shadow: 0 0 15px 3px rgba(186, 115, 186, 0.8);
+        }
+
+        
+        .role-option:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px 5px rgba(186, 115, 186, 0.8);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #2a2a2a;
+            border: 1px solid #ba73ba;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+            .input-field:focus {
                 outline: none;
+                border-color: #8a2b74;
             }
 
-                .log-form input::placeholder {
-                    color: #aaaaaa; /* Placeholder rengi */
-                }
+        .btn {
+            padding: 10px 20px;
+            background-color: #ba73ba;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
 
-            .log-form button {
-                width: 100%;
-                padding: 10px;
-                background-color: #8a2b74; /* Yeşil arka plan */
-                border: none;
-                border-radius: 5px;
-                color: white;
-                font-weight: bold;
-                cursor: pointer;
-                box-shadow: 0 0 10px #8a2b74, 0 0 20px #8a2b74; /* Neon gölgelendirme */
-                transition: all 0.3s ease;
+            .btn:hover {
+                background-color: #8a2b74;
             }
 
         .error-message {
             color: #cc8bcc;
-            font-size: 17px;
-            margin-top: 15px;
-            margin-bottom:5px;
-            text-align: center;
+            margin-top: 10px;
         }
 
-                .log-form button:hover {
-                    background-color: #30912d; /* Daha koyu yeşil */
-                    box-shadow: 0 0 20px #30912d, 0 0 30px #30912d; /* Daha yoğun neon efekt */
-                }
+        .success-message {
+            color: #8aff8a;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
+    <div class="login-container">
+        <h1>Giriş Yap</h1>
+        <p>Giriş tipi seçin</p>
 
-<div class="log-form">
-    <h2>WELCOME</h2>
-        @if (ViewBag.ErrorMessage != null)
-        {
-            <div class="error-message">
-                @ViewBag.ErrorMessage
+        <form method="post" action="/Login/GirisYap">
+            <div class="role-selection">
+                
+                <label class="role-option">
+                    <input type="radio" name="role" value="Student" required>
+                    <img src="/images/student.png"  alt="Öğrenci">
+                    
+                </label>
+
+               
+                <label class="role-option">
+                    <input type="radio" name="role" value="Instructor" required>
+                    <img src="/images/instructor.png"  alt="Öğretim Görevlisi">
+                   
+                </label>
             </div>
-        }
-        <form asp-action="GirisYap" asp-controller="Login" method="post">
-        <input name="Email" type="text"  placeholder="email" />
-        <input name="Password" type="password"  placeholder="password"  />
-        <button type="submit" class="btn">Login</button>
-        
-    </form>
-</div>
+
+            <input type="text" name="Email" class="input-field" placeholder="E-posta" required>
+            <input type="password" name="Password" class="input-field" placeholder="Şifre" required>
+
+            <button type="submit" class="btn">Giriş Yap</button>
+        </form>
+
+        <div class="error-message">
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <p>@ViewBag.ErrorMessage</p>
+            }
+        </div>
+    </div>
 </body>
 </html>
+
 

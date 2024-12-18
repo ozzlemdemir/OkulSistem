@@ -28,38 +28,49 @@ namespace OkulSistem.Controllers
         {
             return View(); //default olarak GirisYap sayfası ayarlandı
         }
-
         [HttpPost]
-        public IActionResult GirisYap(Instructor instructor)
+        public IActionResult GirisYap(string email, string password, string role)
         {
-            try
-            {
-                if (instructor == null || string.IsNullOrEmpty(instructor.Email) || string.IsNullOrEmpty(instructor.Password))
-                {
-                    ViewBag.ErrorMessage = "Giris bilgilerini  eksik girdiniz!";
+           try
+              {
+                  if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(role))
+                     {
+                        ViewBag.ErrorMessage = "Giriş bilgilerini eksik girdiniz!";
+                        return View();
+                      }
+
+                 if (role == "Instructor")
+                      {
+                     var instructor = _context.Instructors
+                      .FirstOrDefault(x => x.Email == email && x.Password == password && x.Role == role);
+
+                       if (instructor != null)
+                       {
+                       HttpContext.Session.SetString("InstructorID", instructor.InstructorID);
+                       return RedirectToAction("Index", "Home");
+                        }
+                  }
+                   else if (role == "Student")
+                      {
+                     var student = _context.Students
+                      .FirstOrDefault(x => x.Email == email && x.Password == password && x.Role == role);
+
+                      if (student != null)
+                       {
+                        HttpContext.Session.SetString("StudentID", student.StudentID);
+                        return RedirectToAction("OgrenciMenu", "Menu");
+                       }
+                    }
+
+                  ViewBag.ErrorMessage = "Hatalı e-posta, şifre veya rol girdiniz!";
+                 return View();
+                }
+             catch (Exception ex)
+                  {
+                   ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";
                     return View();
-                }
-
-                var bilgiler = _context.Instructors//burada girilen bikgilerin veri tabanı ile uyuşup uyuşmadıgı kontrol edilir.
-                    .FirstOrDefault(x => x.Email == instructor.Email && x.Password == instructor.Password);
-
-                if (bilgiler != null)
-                {
-                    HttpContext.Session.SetString("InstructorID", bilgiler.InstructorID);
-                    HttpContext.Session.SetString("InstructorName", bilgiler.FirstName);
-                    return RedirectToAction("Index","Home");//kullanıcı başarılı giriş yapmışsa home index sayfasına yönlnedirilir
-                }
-
-                ViewBag.ErrorMessage = "Hatalı e-posta veya şifre girdiniz!";
-                return View();
-            }
-            catch (Exception ex)
-            {
-                
-                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";//sunu u hatası durumunda çalışır
-                return View();
-            }
-        }
+                 }
+}
 
     }
 }    

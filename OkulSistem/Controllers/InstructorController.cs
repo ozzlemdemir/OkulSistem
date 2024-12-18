@@ -7,10 +7,7 @@ using System.Linq;
 
 namespace OkulSistem.Controllers
 {
-   /*[Route("api/[controller]")]
-    [ApiController]*/
-
-    public class InstructorController : Controller
+   public class InstructorController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -169,7 +166,7 @@ namespace OkulSistem.Controllers
             }
         }
 
-            [HttpGet]
+        [HttpGet]
         public IActionResult InstructorDetails()
         {
 

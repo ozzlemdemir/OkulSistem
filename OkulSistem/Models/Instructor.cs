@@ -8,5 +8,6 @@
         public string? Email { get; set; } // akademsisyen E-posta Adresi
         public string? Department { get; set; } //akademisyen Bölüm
         public string? Password { get; set; } // Şifre 
+        public string? Role {  get; set; }
     }
 }

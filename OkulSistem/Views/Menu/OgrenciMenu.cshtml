@@ -1,0 +1,90 @@
+﻿ @model IEnumerable<OkulSistem.Models.Student>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OgrenciMenu</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 50px 20px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 50px;
+        }
+
+        li {
+            background-color: #ba73ba;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px #8a2b74, 0 0 20px #8a2b74;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ba73ba;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+            a:hover {
+                background-color: #8a2b74;
+            }
+
+        h1:hover {
+        }
+
+    </style>
+</head>
+<body>
+    <div class="hg"> <h1>Hoş Geldiniz</h1> </div>
+
+    <div class="islemler"><h4>YAPABİLECEĞİNİZ İŞLEMLER</h4></div>
+    <div class="menu">
+        <ul>
+            <li><a href="@Url.Action("BilgiGetir", "Student")">Bilgilerinizi Listeleyin</a></li>
+            <li><a href="@Url.Action("DersSec", "Student")">Ders Seçimi Yapın</a></li>
+            <li><a href="@Url.Action("BilgiGuncelle", "Student")">Bilgilerinizi Güncelleyin</a></li>
+            <li><a href="@Url.Action("DerslerListe", "Student")">Seçtiğiniz Dersleri Listeleyin</a></li>
+            <li><a href="@Url.Action("Logout", "Home")">Çıkış Yap</a></li>
+        </ul>
+    </div>
+    <div>
+        <div style="margin-top: 10px;">
+            <a href="/Login/GirisYap" class="btn btn-secondary">Giriş Ekranına Dön</a>
+        </div>
+    </div>
+</body>
+</html>

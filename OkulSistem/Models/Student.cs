@@ -8,6 +8,7 @@
         public string? Email { get; set; } // Öğrenci E-posta Adresi
         public string? Department { get; set; }//öğrenci departmanı
         public string? Password { get; set; } //öğrenci şifresi
+        public string? Role {  get; set; }
 
         public ICollection<StudentsCourse> StudentCourses { get; set; } = new List<StudentsCourse>();
     }
