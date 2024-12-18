@@ -197,13 +197,13 @@ namespace OkulSistem.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Students.Add(student);//veri tabanına ekle yeni öğrenciyi
-                    await _context.SaveChangesAsync(); 
+                    await _context.SaveChangesAsync();
 
-                    
+                    TempData["SuccessMessage"] = "Öğrenci eklendi.";
                     return RedirectToAction("OgrenciEkle");
                 }
 
-                TempData["SuccessMessage"] = "Öğrenci  eklendi.";
+               
                 return View(student);
             }
             catch (Exception ex)
@@ -229,12 +229,12 @@ namespace OkulSistem.Controllers
                 {
                     _context.Courses.Add(kurs);//veri tabanına ekle yeni öğrenciyi
                     await _context.SaveChangesAsync();
-
+                     TempData["SuccessMessage"] = "Kurs eklendi.";
 
                     return RedirectToAction("KursEkle");
                 }
 
-                TempData["SuccessMessage"] = "Kurs eklendi.";
+                
                 return View(kurs);
             }
             catch (Exception ex)
