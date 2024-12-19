@@ -38,6 +38,7 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-top: 50px;
+            margin-left:370px;
         }
 
         li {
@@ -76,8 +77,7 @@
         <ul>
             <li><a href="@Url.Action("BilgiGetir", "Student")">Bilgilerinizi Listeleyin</a></li>
             <li><a href="@Url.Action("DersSec", "Student")">Ders Seçimi Yapın</a></li>
-            <li><a href="@Url.Action("BilgiGuncelle", "Student")">Bilgilerinizi Güncelleyin</a></li>
-            <li><a href="@Url.Action("DerslerListe", "Student")">Seçtiğiniz Dersleri Listeleyin</a></li>
+            <li><a href="@Url.Action("GetStudentCourses", "Student")">Seçtiğiniz Dersleri Listeleyin</a></li>
             <li><a href="@Url.Action("Logout", "Home")">Çıkış Yap</a></li>
         </ul>
     </div>

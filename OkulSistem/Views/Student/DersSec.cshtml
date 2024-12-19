@@ -1,0 +1,41 @@
+<body>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+    <h1>Mevcut Dersler</h1>
+    <table ">
+        <thead>
+            <tr>
+                <th>Kurs ID</th>
+                <th>Kurs Adı</th>
+                <th>Kredi</th>
+                <th>Seç</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model)
+            {
+                <tr>
+                    <td>@course.CourseID</td>
+                    <td>@course.CourseName</td>
+                    <td>@course.Credits</td>
+                    <td>
+                        <form method="post" action="@Url.Action("DersSec", "Student")">
+                            <input type="hidden" name="CourseID" value="@course.CourseID" />
+                            <button type="submit" class="btn btn-primary">Ders Seç</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div style="margin-top: 10px;">
+        <div style="margin-top: 10px;">
+            <a href="/Menu/OgrenciMenu" class="btn btn-secondary">Ana Sayfaya Dön</a>
+        </div>
+    </div>
+</body>
+</html>

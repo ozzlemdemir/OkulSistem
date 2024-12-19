@@ -2,7 +2,7 @@
 {
     public class StudentsCourse
     {
-        public string SelectionID { get; set; }//ders seçimi piramary key
+        public int SelectionID { get; set; }//ders seçimi piramary key
         public string? StudentID { get; set; } // Öğrenci ID'si
         public string? CourseID { get; set; } // Ders ID'si
 

@@ -19,7 +19,12 @@ namespace OkulSistem.Data
             modelBuilder.Entity<StudentsCourse>()
                 .HasKey(sc => new { sc.SelectionID });
 
+            modelBuilder.Entity<StudentsCourse>()
+               .Property(sc => sc.SelectionID)
+                       .ValueGeneratedOnAdd();
+
         }
+
 
 
 
