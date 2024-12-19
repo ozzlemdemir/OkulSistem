@@ -1,0 +1,114 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ConfirmDeleteStudent</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .onay, .bilgi {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 100%;
+        }
+
+            .onay p, .bilgi p {
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .onay p {
+                font-weight: bold;
+                color: #ff7373;
+            }
+
+            .bilgi p strong {
+                color: #ba73ba;
+            }
+
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+            }
+
+        .btn-danger {
+            background-color: #ff4d4d;
+            border: none;
+        }
+
+            .btn-danger:hover {
+                background-color: #e43b3b;
+            }
+
+        .btn-secondary {
+            background-color: #444;
+            border: none;
+        }
+
+            .btn-secondary:hover {
+                background-color: #333;
+            }
+    </style>
+</head>
+<body>
+    <h1>Öğrenci Silme Onayı</h1>
+    <div class="onay">
+    <p>Bu öğrenciyi silmek istediğinize emin misiniz?</p>
+	</div>
+    <div class="bilgi">
+     <p>
+        Öğrenci: <strong>@TempData["StudentName"]</strong><br />
+        ID: <strong>@TempData["StudentID"]</strong>
+     </p>
+	</div>
+    <form method="post" asp-action="ConfirmDeleteStudent" asp-controller="Instructor">
+        <input type="hidden" name="id" value="@TempData["StudentID"]" />
+        <button type="submit" class="btn btn-danger">Evet, Sil</button>
+        <a href="/DeleteStudent" class="btn btn-secondary">Hayır, Vazgeç</a>
+    </form>
+</body>
+</html>

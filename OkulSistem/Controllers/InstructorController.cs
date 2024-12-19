@@ -59,33 +59,54 @@ namespace OkulSistem.Controllers
             return View(ogrenciKurslar);
         }
 
-        //http://localhost:5115/api/Instructor/id?id=2
+
+        
         [HttpGet("DeleteStudent")]
         public IActionResult DeleteStudent()
         {
             return View();//kullanıcıdan id alacağımız kısmı getirdik
         }
         [HttpPost("DeleteStudent/{id?}")]
-        public async Task<IActionResult> DeleteStudent(string id)
+        public IActionResult DeleteStudent(string id)
         {
-            
-            var ogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id); //ogrenci nesnesine silinecek öğrenciyi atadık
+            var ogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id);
 
             if (ogrenci == null)
             {
-                
-                TempData["Error"] = "böyle bir öğrenci yok.";
+                TempData["Error"] = "Böyle bir öğrenci yok.";
                 return RedirectToAction("DeleteStudent");
             }
 
-            
-            _context.Students.Remove(ogrenci);//atadıgımız öğrenciyi sildik
-            await _context.SaveChangesAsync();//değişiklikleri kaydettik
-
-            
-            TempData["Success"] = "ogrenci silindi";
-            return RedirectToAction("DeleteStudent");//öğrenci silindikten sonra tekrar başka öğrenic silinmek istenirse DeleteStudent sayfasına geri döndük
+            // Onay ekranına öğrenci bilgilerini gönder
+            TempData["StudentID"] = id;
+            TempData["StudentName"] = $"{ogrenci.FirstName} {ogrenci.LastName}"; // Öğrenci adı ve soyadı
+            return RedirectToAction("ConfirmDeleteStudent");
         }
+
+        [HttpGet("ConfirmDeleteStudent")]
+        public IActionResult ConfirmDeleteStudent()
+        {
+            return View(); // Onay ekranını döndür
+        }
+
+        [HttpPost("ConfirmDeleteStudent")]
+        public async Task<IActionResult> ConfirmDeleteStudentPost(string id)
+        {
+            var ogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id);
+
+            if (ogrenci == null)
+            {
+                TempData["Error"] = "Böyle bir öğrenci yok.";
+                return RedirectToAction("DeleteStudent");
+            }
+
+            _context.Students.Remove(ogrenci);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Öğrenci başarıyla silindi.";
+            return RedirectToAction("DeleteStudent");
+        }
+
         [HttpGet("OgrenciGuncelle/{id?}")]
         public IActionResult OgrenciGuncelle(string id)
         {
