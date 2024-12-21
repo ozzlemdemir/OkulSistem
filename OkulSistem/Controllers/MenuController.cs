@@ -14,17 +14,14 @@ namespace OkulSistem.Controllers
         }
         public IActionResult OgrenciMenu ()
         {
-            // Giriş yapan kullanıcıyı al
-            var studentEmail = User.Identity.Name; // Kullanıcı adı, giriş yapan kullanıcının email'ini temsil eder
+            
+            var studentEmail = User.Identity.Name; 
             var student = _context.Instructors.FirstOrDefault(x => x.Email == studentEmail);
 
             if (student == null)
             {
-                return RedirectToAction("GirisYap", "Login"); // Giriş yapılmamışsa login sayfasına yönlendir
+                return RedirectToAction("GirisYap", "Login"); 
             }
-
-            
-            ViewBag.Instructor = student;  // Giriş yapan instructor'ı view'a gönder
 
             return View();
         }

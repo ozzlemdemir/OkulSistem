@@ -1,0 +1,100 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: rgba(30, 30, 30, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(186, 115, 186, 0.8);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.role-selection {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.role-option {
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-align: center;
+    position: relative;
+}
+
+    .role-option img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 2px solid #ba73ba;
+        transition: all 0.3s;
+    }
+
+input[type="radio"] {
+    display: none;
+}
+
+
+.role-option input:checked + img {
+    box-shadow: 0 0 15px 3px #11991a;
+}
+
+
+.role-option:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px 5px #11991a;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #2a2a2a;
+    border: 1px solid #ba73ba;
+    color: #fff;
+    border-radius: 5px;
+}
+
+    .input-field:focus {
+        outline: none;
+        border-color: #8a2b74;
+    }
+
+.btn {
+    padding: 10px 20px;
+    background-color: #ba73ba;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+    .btn:hover {
+        background-color: #11991a;
+    }
+
+.error-message {
+    color: #cc8bcc;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: #8aff8a;
+    margin-top: 10px;
+}

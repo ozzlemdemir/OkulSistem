@@ -9,6 +9,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DersimiAlanOgrenciler</title>
+    <link href="~/CSS/DersimiAlanOgrenciler.css" rel="stylesheet" />
 </head>
 <body>
     <h2>Öğrencilerin Almış Oldukları Dersler</h2>
@@ -24,7 +25,7 @@
             @foreach (var student in Model)
             {
                 <tr>
-                    <td>@student.StudentName</td>
+                    <td>@student.StudentName @student.StudentLastName</td>
                     <td>@student.CourseName</td>
                     <td>@student.CourseCredit</td>
                 </tr>
@@ -32,7 +33,7 @@
         </tbody>
     </table>
     <div style="margin-top: 10px;">
-        <a href="/Menu/OgrenciMenu" class="btn btn-secondary">Ana Sayfaya Dön</a>
+        <a href="/Home/Index" class="btn btn-secondary">Ana Sayfaya Dön</a>
     </div>
 </body>
 </html>

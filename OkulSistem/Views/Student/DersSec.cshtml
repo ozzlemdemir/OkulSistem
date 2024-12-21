@@ -9,9 +9,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DersSec</title>
+    <link rel="stylesheet" href="~/CSS/DersSec.css" />
 </head>
 <body>
-    <h2>Ders Seç</h2>
+    <h2>Seçebileceğiniz Dersler</h2>
 
     @if (TempData["ErrorMessage"] != null)
     {
@@ -33,7 +34,7 @@
             {
                 <tr>
                     <td>@course.CourseName</td>
-                    <td>@course.Instructor?.FirstName</td>  
+                    <td>@course.Instructor?.FirstName @course.Instructor?.LastName</td>
                     <td>
                         <form method="post" action="@Url.Action("DersSec", "Student")">
                             <input type="hidden" name="courseId" value="@course.CourseID" />

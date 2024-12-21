@@ -71,6 +71,7 @@ namespace OkulSistem.Controllers
 
             var availableCourses = await _context.Courses
                 .Where(c => !alinanDersler.Contains(c.CourseID) && !onayBekleyenDersler.Contains(c.CourseID))
+                 .Include(c => c.Instructor)
                 .ToListAsync();
 
             return View(availableCourses);  

@@ -1,0 +1,70 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1c1c1c;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: flex-start;
+}
+
+.hg {
+    margin-top: 30px;
+}
+
+    .hg h1 {
+        color: #ba73ba;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+.islemler {
+    margin: 30px 0;
+    font-size: 22px;
+    color: #ba73ba;
+}
+
+.menu {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+    .menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .menu li {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+        .menu li a {
+            text-decoration: none;
+            padding: 12px 20px;
+            color: #fff;
+            background-color: #333;
+            border-radius: 5px;
+            display: block;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+            .menu li a:hover {
+                background-color: #ba73ba;
+                transform: scale(1.05);
+            }
+
+            .menu li a:active {
+                background-color: #11991a;
+            }
