@@ -232,37 +232,83 @@ namespace OkulSistem.Controllers
                 return View(student);
             }
         }
+        
         [HttpGet]
-        public IActionResult KursEkle()
+        public async Task<IActionResult> DersIstekleri()
         {
+            var currentInstructorID = HttpContext.Session.GetString("InstructorID");
 
-            return View();//bu methodu çağırdığımızda sayfanın dönmesi için
+            
+            var pendingRequests = await _context.InstructorCourses
+                .Where(ic => ic.InstructorID == currentInstructorID && ic.Onay == false)
+                .Include(ic => ic.Course)
+                .Include(ic => ic.Student) 
+                .ToListAsync();
+
+            return View(pendingRequests);
         }
-
         [HttpPost]
-        public async Task<IActionResult> KursEkle(Course kurs)
+        public async Task<IActionResult> DersOnayla(int selectionID)
         {
-            try
-            {
+           
+            var courseRequest = await _context.InstructorCourses
+                .FirstOrDefaultAsync(ic => ic.InstructorCourseID == selectionID);
 
-                if (ModelState.IsValid)
+            if (courseRequest != null)
+            {
+                courseRequest.Onay = true; 
+
+               
+                var studentCourse = new StudentsCourse
                 {
-                    _context.Courses.Add(kurs);//veri tabanına ekle yeni öğrenciyi
-                    await _context.SaveChangesAsync();
-                     TempData["SuccessMessage"] = "Kurs eklendi.";
+                    StudentID = courseRequest.StudentID,
+                    CourseID = courseRequest.CourseID
+                };
+                _context.StudentsCourses.Add(studentCourse);
 
-                    return RedirectToAction("KursEkle");
-                }
+                await _context.SaveChangesAsync();
+            }
 
-                
-                return View(kurs);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";
-                return View(kurs);
-            }
+            return RedirectToAction("DersIstekleri");
         }
+        [HttpPost]
+        public async Task<IActionResult> DersReddet(int selectionID)
+        {
+            var courseRequest = await _context.InstructorCourses
+                .FirstOrDefaultAsync(ic => ic.InstructorCourseID == selectionID);
+
+            if (courseRequest != null)
+            {
+                _context.InstructorCourses.Remove(courseRequest);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("DersIstekleri");
+        }
+        [HttpGet]
+        public async Task<IActionResult> DersimiAlanOgrenciler()
+        {
+            var currentInstructorID = HttpContext.Session.GetString("InstructorID");
+
+           
+            var studentsInCourses = await _context.StudentsCourses
+                .Join(_context.Courses,
+                    sc => sc.CourseID,
+                    c => c.CourseID,
+                    (sc, c) => new { sc, c }) 
+                .Where(joined => joined.c.InstructorID.ToString() == currentInstructorID) 
+                .Select(joined => new
+                {
+                    StudentName = joined.sc.Student.FirstName,
+                    CourseName = joined.c.CourseName, 
+                    CourseCredit = joined.c.Credits 
+                })
+                .ToListAsync();
+
+            return View(studentsInCourses);
+        
+
+    }
 
 
 

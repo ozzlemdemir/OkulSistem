@@ -47,6 +47,7 @@ namespace OkulSistem.Controllers
             var pendingCourses = await _context.InstructorCourses
                                           .Where(i => i.StudentID == currentStudentID && i.Onay == false)
                                           .Include(i=> i.Course)
+                                          .Include(i => i.Instructor)
                                           .ToListAsync();
             return View(pendingCourses);
         }
@@ -56,15 +57,20 @@ namespace OkulSistem.Controllers
         {
             var currentStudentID = HttpContext.Session.GetString("StudentID");
 
-           
+            var onayBekleyenDersler = await _context.InstructorCourses
+                .Where(i => i.StudentID == currentStudentID && i.Onay == false)
+                .Select(i => i.CourseID)
+                .ToListAsync();
+
+
             var alinanDersler = await _context.StudentsCourses
                 .Where(sc => sc.StudentID == currentStudentID)
                 .Select(sc => sc.CourseID)
                 .ToListAsync();
 
-           
+
             var availableCourses = await _context.Courses
-                .Where(c => !alinanDersler.Contains(c.CourseID))
+                .Where(c => !alinanDersler.Contains(c.CourseID) && !onayBekleyenDersler.Contains(c.CourseID))
                 .ToListAsync();
 
             return View(availableCourses);  

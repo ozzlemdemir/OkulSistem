@@ -13,41 +13,46 @@
     <title>OnayBekleyen</title>
 </head>
 <body>
-
-    @if (Model != null)
+    @if (TempData["Success"] != null)
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Ders Adı</th>
-                    <th>Öğretim Görevlisi</th>
-                    <th>Durum</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var courseRequest in Model)
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+    <h1>Onay Bekleyen Dersler</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ders ID</th>
+                <th>Ders Adı</th>
+                <th>Öğretmen</th>
+                <th>Durum</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var course in Model)
                 {
                     <tr>
-                        <td>@courseRequest.Course.CourseName</td>
-                        <td>@courseRequest.Course.Instructor.FirstName</td>
-                        <td>
-                            @if (courseRequest.Onay.GetValueOrDefault())
-                            {
-                                <span class="badge bg-success">Onaylandı</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-warning">Onay Bekliyor</span>
-                            }
-                        </td>
+                        <td>@course.Course?.CourseID</td>
+                        <td>@course.Course?.CourseName</td>
+                        <td>@course.Instructor?.FirstName @course.Instructor?.LastName</td> 
+                        <td>Onay Bekliyor</td>
                     </tr>
                 }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>Onay bekleyen dersiniz bulunmamaktadır.</p>
-    }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">Onay bekleyen ders bulunmamaktadır.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div style="margin-top: 10px;">
+        <a href="/Student/DersSec" class="btn btn-secondary">Ders Seçim Sayfasına Dön</a>
+    </div>
 </body>
 </html>

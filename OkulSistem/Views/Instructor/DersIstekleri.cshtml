@@ -1,0 +1,58 @@
+﻿@model IEnumerable<OkulSistem.Models.InstructorCourse>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DersIstekleri</title>
+</head>
+<body>
+    <h1>Onay Bekleyen Ders İstekleri</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Seçim ID</th>
+                <th>Öğrenci Adı</th>
+                <th>Ders Adı</th>
+                <th>Kredi</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var request in Model)
+                {
+                    <tr>
+                        <td>@request.InstructorCourseID</td>
+                        <td>@request.Student?.FirstName</td>
+                        <td>@request.Course?.CourseName</td>
+                        <td>@request.Course?.Credits</td>
+                        <td>
+                            <form method="post" action="@Url.Action("DersOnayla", "Instructor")" style="display:inline;">
+                                <input type="hidden" name="selectionID" value="@request.InstructorCourseID" />
+                                <button type="submit" class="btn btn-success">Onayla</button>
+                            </form>
+                            <form method="post" action="@Url.Action("DersReddet", "Instructor")" style="display:inline;">
+                                <input type="hidden" name="selectionID" value="@request.InstructorCourseID" />
+                                <button type="submit" class="btn btn-danger">Reddet</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">Onay bekleyen ders isteği bulunmamaktadır.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+
+</html>

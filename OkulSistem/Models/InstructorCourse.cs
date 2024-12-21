@@ -11,5 +11,7 @@
       
         public Course? Course { get; set; } // Navigation property (ilişkili ders)
         public Instructor? Instructor { get; set; }// Navigation property(ilişkili instructor)
+        public Student? Student { get; set; }// Navigation property(ilişkili student)
+        
     }
 }
