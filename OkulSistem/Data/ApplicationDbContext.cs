@@ -17,7 +17,7 @@ namespace OkulSistem.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // StudentsCourse tablosu için Composite Primary Key
+           
             modelBuilder.Entity<StudentsCourse>()
                 .HasKey(sc => new { sc.SelectionID });
 
@@ -25,6 +25,13 @@ namespace OkulSistem.Data
                .Property(sc => sc.SelectionID)
                        .ValueGeneratedOnAdd();
 
+
+            modelBuilder.Entity<InstructorCourse>()
+         .HasOne(ic => ic.Student)
+         .WithMany(s => s.InstructorCourses) 
+         .HasForeignKey(ic => ic.StudentID)
+         .OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(modelBuilder);
         }
 
 

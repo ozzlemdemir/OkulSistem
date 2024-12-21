@@ -11,5 +11,6 @@
         public string? Role {  get; set; }
 
         public ICollection<StudentsCourse> StudentCourses { get; set; } = new List<StudentsCourse>();
+        public ICollection<InstructorCourse> InstructorCourses { get; set; }
     }
 }
