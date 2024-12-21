@@ -214,6 +214,8 @@ namespace OkulSistem.Controllers
                 
                 if (ModelState.IsValid)
                 {
+                    string selectedRole = Request.Form["Role"];
+                    student.Role = selectedRole;
                     _context.Students.Add(student);//veri tabanına ekle yeni öğrenciyi
                     await _context.SaveChangesAsync();
 

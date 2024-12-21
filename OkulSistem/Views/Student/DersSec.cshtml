@@ -1,30 +1,42 @@
+﻿@model IEnumerable<OkulSistem.Models.Course>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DersSec</title>
+</head>
 <body>
-    @if (TempData["Success"] != null)
+    <h2>Ders Seç</h2>
+
+    @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["Success"]
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
         </div>
     }
-    <h1>Mevcut Dersler</h1>
-    <table ">
+
+    <table class="table">
         <thead>
             <tr>
-                <th>Kurs ID</th>
                 <th>Kurs Adı</th>
-                <th>Kredi</th>
-                <th>Seç</th>
+                <th>Instructor</th>
+                <th>Onay Durumu</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var course in Model)
             {
                 <tr>
-                    <td>@course.CourseID</td>
                     <td>@course.CourseName</td>
-                    <td>@course.Credits</td>
+                    <td>@course.Instructor?.FirstName</td>  
                     <td>
                         <form method="post" action="@Url.Action("DersSec", "Student")">
-                            <input type="hidden" name="CourseID" value="@course.CourseID" />
+                            <input type="hidden" name="courseId" value="@course.CourseID" />
                             <button type="submit" class="btn btn-primary">Ders Seç</button>
                         </form>
                     </td>
@@ -32,10 +44,5 @@
             }
         </tbody>
     </table>
-    <div style="margin-top: 10px;">
-        <div style="margin-top: 10px;">
-            <a href="/Menu/OgrenciMenu" class="btn btn-secondary">Ana Sayfaya Dön</a>
-        </div>
-    </div>
-</body>
+    </body>
 </html>

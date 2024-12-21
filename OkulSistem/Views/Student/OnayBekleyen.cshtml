@@ -1,0 +1,53 @@
+﻿
+@model IEnumerable<OkulSistem.Models.InstructorCourse>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OnayBekleyen</title>
+</head>
+<body>
+
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ders Adı</th>
+                    <th>Öğretim Görevlisi</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var courseRequest in Model)
+                {
+                    <tr>
+                        <td>@courseRequest.Course.CourseName</td>
+                        <td>@courseRequest.Course.Instructor.FirstName</td>
+                        <td>
+                            @if (courseRequest.Onay.GetValueOrDefault())
+                            {
+                                <span class="badge bg-success">Onaylandı</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Onay Bekliyor</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Onay bekleyen dersiniz bulunmamaktadır.</p>
+    }
+</body>
+</html>
