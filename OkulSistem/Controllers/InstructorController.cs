@@ -107,85 +107,7 @@ namespace OkulSistem.Controllers
             return RedirectToAction("DeleteStudent");
         }
 
-        [HttpGet("OgrenciGuncelle/{id?}")]
-        public IActionResult OgrenciGuncelle(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return View();
-            }
-
-            // Öğrenciyi bulmak için veritabanı sorgusu
-            var guncelogrenci = _context.Students.FirstOrDefault(x => x.StudentID == id);
-
-            if (guncelogrenci == null)
-            {
-                TempData["ErrorMessage"] = "Öğrenci bulunamadı.";
-                return View();
-            }
-
-            return View(guncelogrenci); 
-        }
-
-        [HttpPost("OgrenciGuncelle")]
-        public async Task<IActionResult> OgrenciGuncelle(Student student)
-        {
-            try
-            {
-                
-                if (student == null || string.IsNullOrEmpty(student.StudentID))
-                {
-                    TempData["ErrorMessage"] = "Güncelleme için geçerli bir öğrenci ID'si giriniz.";
-                    return View(student);
-                }
-
-               
-                var guncelogrenci = _context.Students.FirstOrDefault(s => s.StudentID == student.StudentID);
-
-                if (guncelogrenci == null)
-                {
-                    TempData["ErrorMessage"] = "Güncellemek istediğiniz öğrenci bulunamadı.";
-                    return View(student);
-                }
-
-
-                if (!string.IsNullOrEmpty(student.FirstName))
-                {
-                    guncelogrenci.FirstName = student.FirstName;
-                }
-
-                if (!string.IsNullOrEmpty(student.LastName))
-                {
-                    guncelogrenci.LastName = student.LastName;
-                }
-
-                if (!string.IsNullOrEmpty(student.Email))
-                {
-                    guncelogrenci.Email = student.Email;
-                }
-
-                if (!string.IsNullOrEmpty(student.Department))
-                {
-                    guncelogrenci.Department = student.Department;
-                }
-
-                if (!string.IsNullOrEmpty(student.Password))
-                {
-                    guncelogrenci.Password = student.Password;
-                }
-
-                _context.Update(guncelogrenci);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Öğrenci bilgileri başarıyla güncellendi.";
-                return RedirectToAction("OgrenciGuncelle", new { id = student.StudentID });
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"Bir hata oluştu: {ex.Message}";
-                return View(student);
-            }
-        }
+        
 
         [HttpGet]
         public IActionResult InstructorDetails()
@@ -202,8 +124,7 @@ namespace OkulSistem.Controllers
         [HttpGet]
         public IActionResult OgrenciEkle()
         {
-            
-            return View();//bu methodu çağırdığımızda sayfanın dönmesi için
+            return View();
         }
 
         [HttpPost]
@@ -211,28 +132,41 @@ namespace OkulSistem.Controllers
         {
             try
             {
-                
+
                 if (ModelState.IsValid)
                 {
-                    string selectedRole = Request.Form["Role"];
-                    student.Role = selectedRole;
-                    _context.Students.Add(student);//veri tabanına ekle yeni öğrenciyi
+                    if (string.IsNullOrWhiteSpace(student.StudentID))
+                    {
+                        TempData["ErrorMessage"] = "Öğrenci ID'si boş bırakılamaz.";
+                        return View(student);
+                    }
+
+                    var existingStudent = await _context.Students
+            .FirstOrDefaultAsync(s => s.StudentID == student.StudentID);
+
+                    if (existingStudent != null)
+                    {
+                        TempData["ErrorMessage"] = "Bu ID'ye sahip bir öğrenci zaten var.";
+                        return View(student);
+                    }
+                    student.Role = Request.Form["Role"];
+                    _context.Students.Add(student);
                     await _context.SaveChangesAsync();
 
-                    TempData["SuccessMessage"] = "Öğrenci eklendi.";
-                    return RedirectToAction("OgrenciEkle");
+                    TempData["SuccessMessage"] = "Öğrenci başarıyla eklendi.";
+                    return RedirectToAction("GetS"); // Tüm öğrencileri listeleme sayfasına yönlendir
                 }
 
-               
                 return View(student);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = $"Bir hata oluştu: {ex.Message}";
+                TempData["ErrorMessage"] = "Öğrenci eklenirken bir hata oluştu.";
                 return View(student);
             }
         }
-        
+
+
         [HttpGet]
         public async Task<IActionResult> DersIstekleri()
         {
@@ -252,7 +186,11 @@ namespace OkulSistem.Controllers
         {
            
             var courseRequest = await _context.InstructorCourses
+                .Include(ic => ic.Student)
                 .FirstOrDefaultAsync(ic => ic.InstructorCourseID == selectionID);
+
+            var student = await _context.Students
+           .FirstOrDefaultAsync(s => s.StudentID == courseRequest.StudentID);
 
             if (courseRequest != null)
             {
@@ -262,7 +200,10 @@ namespace OkulSistem.Controllers
                 var studentCourse = new StudentsCourse
                 {
                     StudentID = courseRequest.StudentID,
-                    CourseID = courseRequest.CourseID
+                    CourseID = courseRequest.CourseID,
+                    StudentName=student.FirstName,
+                    StudentLastName=student.LastName
+                   
                 };
                 _context.StudentsCourses.Add(studentCourse);
 
@@ -301,6 +242,7 @@ namespace OkulSistem.Controllers
                 {
                     StudentName = joined.sc.Student.FirstName,
                     CourseName = joined.c.CourseName, 
+                    StudentLastName=joined.sc.Student.LastName,
                     CourseCredit = joined.c.Credits 
                 })
                 .ToListAsync();

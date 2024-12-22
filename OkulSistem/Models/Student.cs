@@ -2,7 +2,7 @@
 {
     public class Student
     {
-        public string StudentID { get; set; } // Öğrenci ID'si (primary key)
+        public  required string StudentID { get; set; } // Öğrenci ID'si (primary key)
         public string? FirstName { get; set; } // Öğrenci Adı
         public string? LastName { get; set; } // Öğrenci Soyadı
         public string? Email { get; set; } // Öğrenci E-posta Adresi
@@ -11,6 +11,6 @@
         public string? Role {  get; set; }
 
         public ICollection<StudentsCourse> StudentCourses { get; set; } = new List<StudentsCourse>();
-        public ICollection<InstructorCourse> InstructorCourses { get; set; }
+        public ICollection<InstructorCourse>?  InstructorCourses { get; set; }
     }
 }

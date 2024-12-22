@@ -6,11 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(
@@ -24,7 +23,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddDistributedMemoryCache(); // Bellekte oturum saklama
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum süresi
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -35,8 +34,6 @@ var app = builder.Build();
 
 app.UseSession();
 
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
